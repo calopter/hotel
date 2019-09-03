@@ -8,5 +8,9 @@ module Hotel
       @start = start
       @end = nd
     end
+
+    def includes? date
+      date >= @start && date <= @end
+    end
   end
 end
