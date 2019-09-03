@@ -4,6 +4,7 @@ module Hotel
 
     def initialize start, nd
       raise ArgumentError, "start cannot be after end" if start > nd
+      raise ArgumentError, "must reserve at least one night" if start == nd
       
       @start = start
       @end = nd
