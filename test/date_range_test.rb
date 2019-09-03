@@ -17,7 +17,7 @@ describe 'DateRange' do
     expect(@date_range.end).must_be_instance_of Date    
   end
 
-  xit 'raises ArgumentError if start is after end' do
-    
+  it 'raises ArgumentError if start is after end' do
+    expect { Hotel::DateRange.new @end, @start }.must_raise ArgumentError
   end
 end
