@@ -30,8 +30,28 @@ describe 'DateRange' do
     end
 
     it 'returns false if date is not in the date range' do
-      day = Date.jd 458730
+      day = Date.jd 3
       expect(@date_range.includes? day).must_equal false
+    end
+  end
+
+  describe '#nights' do
+    it 'returns a set of Date instances' do
+      expect(@date_range.nights).must_be_instance_of Set
+      expect(@date_range.nights.count).must_equal 1
+      expect(@date_range.nights.first).must_be_instance_of Date
+    end
+  end
+
+  describe '#overlaps?' do
+    it 'returns true if the ranges overlap' do
+      other_range = Hotel::DateRange.new(@start, @end.succ)
+      expect(@date_range.overlaps? other_range).must_equal true 
+    end
+
+    it 'returns false if the ranges do not overlap' do
+      other_range = Hotel::DateRange.new(@end, @end.succ)
+      expect(@date_range.overlaps? other_range).must_equal false
     end
   end
 end

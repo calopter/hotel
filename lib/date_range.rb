@@ -12,5 +12,13 @@ module Hotel
     def includes? date
       date >= @start && date <= @end
     end
+
+    def overlaps? date_range
+      nights.intersect? date_range.nights 
+    end
+
+    def nights
+      @start.upto(@end.prev_day).to_set
+    end
   end
 end
