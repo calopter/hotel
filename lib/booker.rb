@@ -14,5 +14,9 @@ module Hotel
       @reservations << reservation
       reservation
     end
+
+    def reservations_on date
+      @reservations.select { |r| r.date_range.includes? date }
+    end
   end
 end
