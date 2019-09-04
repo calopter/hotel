@@ -105,4 +105,27 @@ describe 'Booker' do
       expect(availabilities).wont_include @room
     end
   end
+
+  describe '#reserve' do
+    it 'stores and returns a reservation for a given date_range' do
+      new_reservation = @booker.reserve @short_stay
+      that_reservation = @booker.reservations.first
+      
+      expect(that_reservation).must_be_instance_of Hotel::Reservation
+      expect(that_reservation).must_equal new_reservation
+      expect(that_reservation.date_range).must_equal @short_stay
+    end
+
+    it 'reserves an available room' do
+      19.times { @booker.reserve @short_stay }
+      reservation = @booker.reserve @short_stay
+
+      expect(reservation.room).must_equal @booker.rooms.last
+    end
+
+    it 'raises RuntimeError if there are no availabilities' do
+      20.times { @booker.reserve @short_stay }
+      expect{ @booker.reserve @short_stay }.must_raise RuntimeError
+    end
+  end
 end

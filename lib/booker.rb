@@ -9,6 +9,12 @@ module Hotel
       @reservations = []
     end
 
+    def reserve date_range
+      rooms = availabilities(date_range)
+      raise RuntimeError, "no availabilities for those dates" if rooms.empty?
+      add_reservation rooms.first, date_range
+    end
+
     def add_reservation room, date_range
       raise ArgumentError, "invalid room" unless @rooms.include? room
       
