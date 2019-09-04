@@ -22,7 +22,9 @@ module Hotel
     end
 
     def available? room, date_range
-      
+      @reservations.select do |r|
+        (r.room == room) && (r.date_range.overlaps? date_range)
+      end.none?
     end
   end
 end
