@@ -90,12 +90,19 @@ describe 'Booker' do
   end
 
   describe '#availabilities' do
+    before do
+      @stay = Hotel::DateRange.new(Date.jd(1337), Date.jd(1337).next)
+      @booker.add_reservation @room, @stay
+    end
+    
     it 'returns an array of rooms' do
-      
+      expect(@booker.availabilities @stay).must_be_instance_of Array
     end
 
     it 'returns only available rooms' do
-      
+      availabilities = @booker.availabilities @stay
+      expect(availabilities.count).must_equal @booker.rooms.count.pred
+      expect(availabilities).wont_include @room
     end
   end
 end

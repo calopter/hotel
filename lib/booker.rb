@@ -26,5 +26,9 @@ module Hotel
         (r.room == room) && (r.date_range.overlaps? date_range)
       end.none?
     end
+
+    def availabilities date_range
+      @rooms.select { |room| available? room, date_range }
+    end
   end
 end
