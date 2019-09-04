@@ -27,10 +27,14 @@ describe 'Booker' do
 
   describe '#add_reservation' do
     it 'stores a reservation' do
-      reservation = @booker.add_reservation @start, @end
+      reservation = @booker.add_reservation @room, @short_stay
       
       expect(reservation).must_be_instance_of Hotel::Reservation
       expect(@booker.reservations.first).must_equal reservation
+    end
+
+    it 'raises ArgumentError if room doesnt exist' do
+      expect { @booker.add_reservation 1337, @short_stay }.must_raise ArgumentError
     end
   end
 
