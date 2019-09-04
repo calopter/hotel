@@ -67,4 +67,31 @@ describe 'Booker' do
       expect(reservations.empty?).must_equal true
     end
   end
+
+  describe '#available? room, d_r' do
+    before do
+      @stay = Hotel::DateRange.new(Date.jd(1337), Date.jd(1337).next)
+      @booker.add_reservation @room, @stay
+    end
+    
+    it 'retuns true if the room has no reservations for d_r' do
+      avail = @booker.available?(@room, @short_stay)
+      expect(avail).must_equal true
+    end
+
+    it 'returns false for a room that is reserved' do
+      avail = @booker.available?(@room, @stay)
+      expect(avail).must_equal false
+    end
+  end
+
+  describe '#availabilities' do
+    it 'returns an array of rooms' do
+      
+    end
+
+    it 'returns only available rooms' do
+      
+    end
+  end
 end
