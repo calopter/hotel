@@ -55,7 +55,9 @@ describe 'DateRange' do
     it 'returns false if the ranges do not overlap' do
       after = Hotel::DateRange.new(@end, @end.next)
       before = Hotel::DateRange.new(@start.prev_day, @start)
+      
       expect(@one_night.overlaps? after).must_equal false
+      expect(@one_night.overlaps? before).must_equal false
     end
   end
 end
