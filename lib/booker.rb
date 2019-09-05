@@ -4,8 +4,9 @@ module Hotel
   class Booker
     attr_reader :rooms, :reservations
 
-    def initialize
-      @rooms = (1..20).to_a
+    def initialize rooms, rate
+      @rooms = rooms
+      @rate = rate
       @reservations = []
     end
 
@@ -18,7 +19,7 @@ module Hotel
     def add_reservation room, date_range
       raise ArgumentError, "invalid room" unless @rooms.include? room
       
-      reservation = Reservation.new(room, date_range)
+      reservation = Reservation.new(date_range, @rate, room)
       @reservations << reservation
       reservation
     end

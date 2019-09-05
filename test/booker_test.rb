@@ -7,7 +7,9 @@ describe 'Booker' do
     @short_stay = Hotel::DateRange.new @start, @end
     @longer_stay = Hotel::DateRange.new @start, @end >> 1
     @room = 1
-    @booker = Hotel::Booker.new
+    rooms = (1..20).to_a
+    rate = 200
+    @booker = Hotel::Booker.new rooms, rate
   end
 
   describe '#initialize' do

@@ -3,7 +3,9 @@ require_relative 'test_helper'
 describe 'Reservation' do
   before do
     date_range = Hotel::DateRange.new Date.today, Date.today.next
-    @reservation = Hotel::Reservation.new 1, date_range
+    room = 1
+    rate = 200
+    @reservation = Hotel::Reservation.new date_range, rate, room
   end
 
   describe '#initialize' do
