@@ -105,7 +105,6 @@ describe 'Booker' do
 
     it 'returns only available rooms' do
       availabilities = @booker.availabilities @stay
-      puts @stay
       
       expect(availabilities.count).must_equal @booker.rooms.count.pred
       expect(availabilities).wont_include @room
