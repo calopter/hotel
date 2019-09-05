@@ -10,6 +10,7 @@ describe 'Booker' do
     rooms = (1..20).to_a
     rate = 200
     @booker = Hotel::Booker.new rooms, rate
+    @reservation = { room: @room, date_range: @short_stay, rate: 200 }
   end
 
   describe '#initialize' do
@@ -29,20 +30,21 @@ describe 'Booker' do
 
   describe '#add_reservation' do
     it 'stores a reservation' do
-      reservation = @booker.add_reservation @room, @short_stay
+      reservation = @booker.add_reservation @reservation
       
       expect(reservation).must_be_instance_of Hotel::Reservation
       expect(@booker.reservations.first).must_equal reservation
     end
 
     it 'raises ArgumentError if room doesnt exist' do
-      expect { @booker.add_reservation 1337, @short_stay }.must_raise ArgumentError
+      reservation_info = { room: 1337, date_range: @short_stay }
+      expect { @booker.add_reservation reservation_info }.must_raise ArgumentError
     end
   end
 
   describe '#reservations_on' do
     it 'returns an array of reservations' do
-      @booker.add_reservation @room, @short_stay
+      @booker.add_reservation @reservation
       reservations = @booker.reservations_on Date.today
       
       expect(reservations).must_be_instance_of Array
@@ -51,7 +53,7 @@ describe 'Booker' do
     end
 
     it 'returns reservations with the given date' do
-      @booker.add_reservation @room, @short_stay
+      @booker.add_reservation @reservation
       
       reservations = @booker.reservations_on @start
       expect(reservations.first.date_range.start).must_equal @start
@@ -61,7 +63,7 @@ describe 'Booker' do
     end
 
     it 'does not return reservations with other dates' do
-      @booker.add_reservation @room, @short_stay
+      @booker.add_reservation @reservation
       reservations = @booker.reservations_on (Date.jd 1337)
       expect(reservations.empty?).must_equal true
     end
@@ -77,7 +79,7 @@ describe 'Booker' do
   describe '#available? room, d_r' do
     before do
       @stay = Hotel::DateRange.new(Date.jd(1337), Date.jd(1337).next)
-      @booker.add_reservation @room, @stay
+      @booker.add_reservation({ room: @room, date_range: @stay })
     end
     
     it 'retuns true if the room has no reservations for d_r' do
@@ -94,7 +96,7 @@ describe 'Booker' do
   describe '#availabilities' do
     before do
       @stay = Hotel::DateRange.new(Date.jd(1337), Date.jd(1337).next)
-      @booker.add_reservation @room, @stay
+      @booker.add_reservation({ room: @room, date_range: @stay })
     end
     
     it 'returns an array of rooms' do
@@ -103,6 +105,8 @@ describe 'Booker' do
 
     it 'returns only available rooms' do
       availabilities = @booker.availabilities @stay
+      puts @stay
+      
       expect(availabilities.count).must_equal @booker.rooms.count.pred
       expect(availabilities).wont_include @room
     end
@@ -130,4 +134,41 @@ describe 'Booker' do
       expect{ @booker.reserve @short_stay }.must_raise RuntimeError
     end
   end
+
+  # describe 'block_out' do
+  #   before do
+  #     rooms = (1..5).to_a
+  #     rate = 100
+  #     @booker.block_out @short_stay, rooms, rate
+  #   end
+    
+  #   it 'is legit' do
+  #     a = 1
+  #     expect(a).must_equal a
+  #   end
+
+  #   it 'raises ArgumentError if a room is unavailable' do
+      
+  #   end
+
+  #   it 'stores a Block' do
+      
+  #   end
+
+  #   it 'blocks out other reservations' do
+      
+  #   end
+
+  #   it 'raises ArgumentError if you try to make an overlapping block' do
+      
+  #   end
+
+  #   it 'can only reserve a specific room for the duration' do
+      
+  #   end
+
+  #   it 'causes reservations to appear along with all reservations for that date' do
+      
+  #   end
+  # end
 end

@@ -2,10 +2,10 @@ module Hotel
   class Reservation
     attr_reader :room, :date_range
 
-    def initialize date_range, rate, room
-      @room = room
-      @date_range = date_range
-      @rate = rate
+    def initialize args={}
+      @room = args[:room]
+      @date_range = args[:date_range]
+      @rate = args[:rate]
     end
 
     def cost
