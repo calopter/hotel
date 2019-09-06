@@ -9,7 +9,7 @@ describe 'Booker' do
     @room = 1
     rooms = (1..20).to_a
     rate = 200
-    @booker = Hotel::Booker.new rooms, rate
+    @booker = Hotel::Booker.new(rooms: rooms)
   end
 
   describe '#initialize' do

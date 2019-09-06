@@ -4,7 +4,7 @@ module Hotel
   class Booker
     attr_reader :rooms, :reservations
 
-    def initialize rooms, rate
+    def initialize rooms:, rate: 200
       @rooms = rooms
       @rate = rate
       @reservations = []

@@ -1,6 +1,6 @@
 module Hotel
   class Block < Booker
-    def initialize date_range, rooms, rate
+    def initialize id:, date_range:, rooms:, rate:, reservations:
       
     end
   end
