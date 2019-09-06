@@ -1,5 +1,5 @@
 module Hotel
-  class Block < Booker
+  class Blocker < Booker
     attr_reader :date_range
     
     def initialize id:, date_range:, rooms:, rate: 100, reservations:
