@@ -81,12 +81,12 @@ describe 'Booker' do
     end
     
     it 'retuns true if the room has no reservations for d_r' do
-      avail = @booker.available?(@room, @short_stay)
+      avail = @booker.available?(room: @room, date_range: @short_stay)
       expect(avail).must_equal true
     end
 
     it 'returns false for a room that is reserved' do
-      avail = @booker.available?(@room, @stay)
+      avail = @booker.available?(room: @room, date_range: @stay)
       expect(avail).must_equal false
     end
   end

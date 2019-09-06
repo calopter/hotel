@@ -19,6 +19,25 @@ describe 'Block' do
         expect(@block).must_respond_to method
       end
     end
+
+    it 'raises ArgumentError if a room is unavailable' do
+      room, d_r = @block.rooms.first, @block.date_range
+      @booker.add_reservation room, d_r
+      
+      avail = @booker.available?(room: room, date_range: d_r)
+      expect(avail).must_equal false
+      
+      avail = @block.available?(room: room, date_range: d_r)
+      expect(avail).must_equal false
+
+      expect(@block.reservations.count).must_equal 1
+      expect(@booker.reservations.count).must_equal 1
+      
+      
+      expect{ Hotel::Block.new(id: 0, date_range: d_r, rooms: @block.rooms,
+                               reservations: @booker.reservations)
+            }.must_raise ArgumentError
+    end
   end
 
   describe '#reserve' do

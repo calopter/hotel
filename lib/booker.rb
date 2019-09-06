@@ -28,14 +28,14 @@ module Hotel
       @reservations.select { |r| r.date_range.includes? date }
     end
 
-    def available? room, date_range
+    def available? room:, date_range:
       @reservations.select do |r|
         (r.room == room) && (r.date_range.overlaps? date_range)
       end.none?
     end
 
     def availabilities date_range
-      @rooms.select { |room| available? room, date_range }
+      @rooms.select { |room| available?(room: room, date_range: date_range) }
     end
   end
 end
