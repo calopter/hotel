@@ -1,8 +1,9 @@
 require_relative 'reservation'
+require 'pry'
 
 module Hotel
   class Booker
-    attr_reader :rooms, :reservations
+    attr_reader :rooms
 
     def initialize rooms:, rate: 200
       @rooms = rooms
@@ -10,18 +11,21 @@ module Hotel
       @reservations = []
     end
 
-    def reserve date_range
-      rooms = availabilities(date_range)
-      raise RuntimeError, "no availabilities for those dates" if rooms.empty?
-      add_reservation rooms.first, date_range
-    end
-
-    def add_reservation room, date_range
+    def reserve date_range, room: nil, master_res: nil
+      room ||= find_room date_range
       raise ArgumentError, "invalid room" unless @rooms.include? room
       
       reservation = Reservation.new(date_range: date_range, rate: @rate, room: room)
       @reservations << reservation
+      master_res << reservation if master_res
+      binding.pry
       reservation
+    end
+
+    def find_room date_range
+      rooms = availabilities(date_range)
+      raise RuntimeError, "no availabilities for those dates" if rooms.empty?
+      rooms.first
     end
 
     def reservations_on date
@@ -36,6 +40,10 @@ module Hotel
 
     def availabilities date_range
       @rooms.select { |room| available?(room: room, date_range: date_range) }
+    end
+
+    def reservations
+      @reservations.reject { |r| r.instance_of? Block }
     end
   end
 end

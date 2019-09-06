@@ -1,11 +1,13 @@
 require_relative 'test_helper'
+require 'pry'
 
-describe 'Block' do
+describe 'Blocker' do
   before do
     date_range = Hotel::DateRange.new Date.today, Date.today.next
     rooms = (1..5).to_a
     @booker = Hotel::Booker.new(rooms: (1..20).to_a)
     @blocker = Hotel::Blocker.new(id: 0, date_range: date_range, rooms: rooms, reservations: @booker.reservations)
+    binding.pry
   end
 
   describe 'initialize' do
@@ -14,7 +16,7 @@ describe 'Block' do
     end
 
     it 'has superclass methods' do
-      [:reserve, :add_reservation, :reservations_on,
+      [:reserve, :reservations_on,
       :available?, :availabilities, :reservations].each do |method|
         expect(@blocker).must_respond_to method
       end
@@ -22,7 +24,7 @@ describe 'Block' do
 
     it 'raises ArgumentError if a room is unavailable' do
       room, d_r = @blocker.rooms.first, @blocker.date_range
-      @booker.add_reservation room, d_r
+      @booker.reserve d_r, room: room
       
       avail = @booker.available?(room: room, date_range: d_r)
       expect(avail).must_equal false

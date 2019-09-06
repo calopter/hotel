@@ -27,22 +27,22 @@ describe 'Booker' do
     end
   end
 
-  describe '#add_reservation' do
+  describe 'reserve' do
     it 'stores a reservation' do
-      reservation = @booker.add_reservation @room, @short_stay
+      reservation = @booker.reserve @short_stay, room: @room
       
       expect(reservation).must_be_instance_of Hotel::Reservation
       expect(@booker.reservations.first).must_equal reservation
     end
 
     it 'raises ArgumentError if room doesnt exist' do
-      expect { @booker.add_reservation 1337, @short_stay }.must_raise ArgumentError
+      expect { @booker.reserve @short_stay, room: 1337}.must_raise ArgumentError
     end
   end
 
   describe '#reservations_on' do
     it 'returns an array of reservations' do
-      @booker.add_reservation @room, @short_stay
+      @booker.reserve @short_stay, room: @room
       reservations = @booker.reservations_on Date.today
       
       expect(reservations).must_be_instance_of Array
@@ -51,7 +51,7 @@ describe 'Booker' do
     end
 
     it 'returns reservations with the given date' do
-      @booker.add_reservation @room, @short_stay
+      @booker.reserve @short_stay, room: @room
       
       reservations = @booker.reservations_on @start
       expect(reservations.first.date_range.start).must_equal @start
@@ -61,7 +61,7 @@ describe 'Booker' do
     end
 
     it 'does not return reservations with other dates' do
-      @booker.add_reservation @room, @short_stay
+      @booker.reserve @short_stay, room: @room
       reservations = @booker.reservations_on (Date.jd 1337)
       expect(reservations.empty?).must_equal true
     end
@@ -77,7 +77,7 @@ describe 'Booker' do
   describe '#available? room, d_r' do
     before do
       @stay = Hotel::DateRange.new(Date.jd(1337), Date.jd(1337).next)
-      @booker.add_reservation @room, @stay
+      @booker.reserve @stay, room: @room
     end
     
     it 'retuns true if the room has no reservations for d_r' do
@@ -94,7 +94,7 @@ describe 'Booker' do
   describe '#availabilities' do
     before do
       @stay = Hotel::DateRange.new(Date.jd(1337), Date.jd(1337).next)
-      @booker.add_reservation @room, @stay
+      @booker.reserve @stay, room: @room
     end
     
     it 'returns an array of rooms' do
