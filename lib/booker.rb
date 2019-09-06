@@ -19,7 +19,7 @@ module Hotel
     def add_reservation room, date_range
       raise ArgumentError, "invalid room" unless @rooms.include? room
       
-      reservation = Reservation.new(date_range, @rate, room)
+      reservation = Reservation.new(date_range: date_range, rate: @rate, room: room)
       @reservations << reservation
       reservation
     end

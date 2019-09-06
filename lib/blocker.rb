@@ -9,6 +9,7 @@ module Hotel
       
       @rooms.each do |room|
         raise ArgumentError unless available?(room: room, date_range: date_range)
+        @reservations << Block.new(date_range: date_range, room: room)
       end
     end
 

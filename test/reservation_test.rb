@@ -5,7 +5,7 @@ describe 'Reservation' do
     date_range = Hotel::DateRange.new Date.today, Date.today.next
     room = 1
     rate = 200
-    @reservation = Hotel::Reservation.new date_range, rate, room
+    @reservation = Hotel::Reservation.new(date_range: date_range, rate: rate, room: room)
   end
 
   describe '#initialize' do
