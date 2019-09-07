@@ -1,0 +1,6 @@
+- define clear and consistent interfaces and use them in the tests
+- refactor DateRange#overlaps? for efficiency
+- create and inject Book class into Booker and Blocker to replace the concept of a master @reservations array. See shared-reservations branch for stubs. This should clear up a bunch of confusing @reservations vs #reservations usage which could in turn solve most of the interfaces problem.
+- Book should handle space efficient storage of Reservation instances, and time efficient lookup by room or date, with return values ordered by date
+- use Book's order guarantee to refactor Booker#availabilities and #available? for search efficiency
+- create a Reservation factory to remove dependency on Reservation from Booker#reserve? Once Book is moved out it could turn out that Booker is the Reservation factory after all.

@@ -1,5 +1,4 @@
 require_relative 'reservation'
-require 'pry'
 
 module Hotel
   class Booker
@@ -18,7 +17,6 @@ module Hotel
       reservation = Reservation.new(date_range: date_range, rate: @rate, room: room)
       @reservations << reservation
       local_res << reservation if local_res
-      # binding.pry
       reservation
     end
 
