@@ -5,17 +5,24 @@ module Hotel
     def initialize id:, date_range:, rooms:, rate: 100, reservations:
       super(rooms: rooms, rate: rate)
       @date_range = date_range
-      @master_res = reservations
-      @reservations = []
+      @local_res = []
+      @reservations = reservations
 
       @rooms.each do |room|
-        raise ArgumentError unless available?(room: room, date_range: date_range)
-        @master_res << Block.new(date_range: date_range, room: room)
+        @reservations << Block.new(date_range: date_range, room: room)
+      end
+
+      @reservations.each do |reservation|
+        raise ArgumentError if (@rooms.include? reservation.room) && (reservation.instance_of? Reservation)
       end
     end
 
     def reserve
-      super @date_range, master_res: @master_res
+      super @date_range, local_res: @local_res
+    end
+
+    def reservations
+      @local_res
     end
   end
 end

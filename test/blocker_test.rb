@@ -7,7 +7,7 @@ describe 'Blocker' do
     rooms = (1..5).to_a
     @booker = Hotel::Booker.new(rooms: (1..20).to_a)
     @blocker = Hotel::Blocker.new(id: 0, date_range: date_range, rooms: rooms, reservations: @booker.reservations)
-    binding.pry
+    # binding.pry
   end
 
   describe 'initialize' do
@@ -28,16 +28,13 @@ describe 'Blocker' do
       
       avail = @booker.available?(room: room, date_range: d_r)
       expect(avail).must_equal false
-      
-      avail = @blocker.available?(room: room, date_range: d_r)
-      expect(avail).must_equal false
-
-      expect(@blocker.reservations.count).must_equal 1
-      expect(@booker.reservations.count).must_equal 1
+     
+      expect(@blocker.list_reservations.count).must_equal 0
+      expect(@booker.list_reservations.count).must_equal 1
       
       
-      expect{ Hotel::Blocker.new(id: 0, date_range: d_r, rooms: @blocker.rooms,
-                               reservations: @booker.reservations)
+      expect{ Hotel::Blocker.new(id: 1337, date_range: d_r, rooms: @blocker.rooms,
+                               reservations: @booker.list_reservations)
             }.must_raise ArgumentError
     end
 
@@ -61,8 +58,8 @@ describe 'Blocker' do
 
     it 'stores that reservation such that Booker can see it' do
       reservation = @blocker.reserve
-      expect(@booker.reservations.count).must_equal 1
-      expect(@booker.reservations).must_include reservation
+      expect(@booker.list_reservations.count).must_equal 1
+      expect(@booker.list_reservations).must_include reservation
     end
 
     it 'picks a room in the block' do

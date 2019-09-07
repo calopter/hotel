@@ -11,14 +11,14 @@ module Hotel
       @reservations = []
     end
 
-    def reserve date_range, room: nil, master_res: nil
+    def reserve date_range, room: nil, local_res: nil
       room ||= find_room date_range
       raise ArgumentError, "invalid room" unless @rooms.include? room
       
       reservation = Reservation.new(date_range: date_range, rate: @rate, room: room)
       @reservations << reservation
-      master_res << reservation if master_res
-      binding.pry
+      local_res << reservation if local_res
+      # binding.pry
       reservation
     end
 
@@ -33,7 +33,7 @@ module Hotel
     end
 
     def available? room:, date_range:
-      @reservations.select do |r|
+      reservations.select do |r|
         (r.room == room) && (r.date_range.overlaps? date_range)
       end.none?
     end
@@ -43,7 +43,11 @@ module Hotel
     end
 
     def reservations
-      @reservations.reject { |r| r.instance_of? Block }
+      @reservations
+    end
+
+    def list_reservations
+      reservations.reject { |r| r.instance_of? Block }
     end
   end
 end
