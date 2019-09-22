@@ -10,13 +10,12 @@ module Hotel
       @reservations = []
     end
 
-    def reserve date_range, room: nil, local_res: nil
+    def reserve date_range, room: nil
       room ||= find_room date_range
       raise ArgumentError, "invalid room" unless @rooms.include? room
       
       reservation = Reservation.new(date_range: date_range, rate: @rate, room: room)
       @reservations << reservation
-      local_res << reservation if local_res
       reservation
     end
 

@@ -5,3 +5,7 @@
 - If we decide items are cheaper if bought in bulk, implementation B would be easier to modify, because the new feature would be a responsibility of `ShoppingCart`. whereas implementation A would require modifying code whose original purpose was to calculate sales tax.
 - Implementation B adheres to the single responsibility principle better.
 - It is also more loosely coupled.
+
+### Activity
+- Move the logic handling local reservations from `Booker` to `Blocker`.
+- The parent class should not have knowledge of the workings of child classes, so any new behavior should belong there.

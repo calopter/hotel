@@ -18,7 +18,9 @@ module Hotel
     end
 
     def reserve
-      super @date_range, local_res: @local_res
+      reservation = super @date_range
+      @local_res << reservation
+      reservation
     end
 
     def reservations

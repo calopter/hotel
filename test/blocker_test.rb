@@ -7,7 +7,6 @@ describe 'Blocker' do
     rooms = (1..5).to_a
     @booker = Hotel::Booker.new(rooms: (1..20).to_a)
     @blocker = Hotel::Blocker.new(id: 0, date_range: date_range, rooms: rooms, reservations: @booker.reservations)
-    # binding.pry
   end
 
   describe 'initialize' do
